@@ -1,5 +1,5 @@
 {
-  "id": "pengym.app.sub",
+  "id": "test.app.sub",
   "name": "test",
   "author": "@test",
   "icon": "https://avatars2.githubusercontent.com/u/21050064?s=460&u=40a74913dd0a3d00670d05148c3a08c787470021&v=4",
