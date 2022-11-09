@@ -33,7 +33,7 @@ Promise.all(subscriptions.map(async sub => await fetchInfo(sub))).catch((err) =>
 
 async function fetchInfo(sub) {
     const headers = {
-        "User-Agent": "Quantumult X/1.0.30 (iPhone10,3; iOS 14.0)"
+        "User-Agent": "ClashforWindows/0.20.6"
     };
     $.http.get({
         url: sub.link,
