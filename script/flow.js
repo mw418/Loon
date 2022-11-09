@@ -40,7 +40,7 @@ async function fetchInfo(sub) {
         headers
     }).then(resp => {
         const headers = resp.headers;
-        $.notify("🚀 [机场流量]",`$headers`);
+        $.log(userinfo);
         const subkey = Object.keys(headers).filter(k => /SUBSCRIPTION-USERINFO/i.test(k))[0];
         const userinfo = headers[subkey];
         if (!userinfo) {
