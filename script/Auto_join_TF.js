@@ -38,10 +38,10 @@ function autoPost(ID) {
 				} else {
           let jsonData = JSON.parse(data)
           if (jsonData.data == null) {
-            console.log(ID + ' ' + jsonData.messages[0].message)
+            console.log(jsonData.app.name + ' ' + jsonData.messages[0].message)
             resolve();
           } else if (jsonData.data.status == 'FULL') {
-            console.log(ID + ' ' + jsonData.data.message)
+            console.log(jsonData.app.name + ' ' + jsonData.data.message)
             resolve();
           } else {
             $httpClient.post({url: testurl + ID + '/accept',headers: header}, function(error, resp, body) {
