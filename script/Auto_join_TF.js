@@ -1,12 +1,17 @@
 /*
 脚本作者：DecoAri
 引用地址：https://raw.githubusercontent.com/DecoAri/JavaScript/main/Surge/Auto_join_TF.js
+
+需要手动写入APP_ID
+配置--> 数据持久化--> 导入指定数据
+key是APP_ID
+value为tf链接 https://testflight.apple.com/join/LPQmtkUs 的join后的字符串(也就是此例子的“LPQmtkUs”)
+监控多个tf链接，用逗号隔开。 eg:LPQmtkUs,LPQmtkUs2
 */
 !(async () => {
 ids = $persistentStore.read('APP_ID')
 if (ids == '') {
-	$notification.post('所有TF已加入完毕','模块已自动关闭','')
-	$done({})
+	$notification.post('所有TF已加入完毕','请手动禁用该模块','')
 } else {
 	ids = ids.split(',')
 	for await (const ID of ids) {
@@ -41,7 +46,7 @@ function autoPost(ID) {
             console.log(ID + ' ' + jsonData.messages[0].message)
             resolve();
           } else if (jsonData.data.status == 'FULL') {
-            console.log(jsonData.data.app.name + ' ' + jsonData.data.message)
+            console.log(jsonData.data.app.name + ' ' + ID + ' '+ jsonData.data.message)
             resolve();
           } else {
             $httpClient.post({url: testurl + ID + '/accept',headers: header}, function(error, resp, body) {
