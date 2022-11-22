@@ -1,0 +1,11 @@
+#!name=Auto module for JavaScripts
+#!desc=For those JavaScripts who should be disabled after evaluation successful.
+#!author=Lucky
+
+[MITM]
+hostname=testflight.apple.com
+
+[Script]
+http-request ^https:\/\/testflight\.apple\.com\/v3\/accounts/.*\/apps$, script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/TF_keys.js, tag=TF信息获取
+
+cron "*/1 * * * * *" script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/Auto_join_TF.js, tag=Auto join TF

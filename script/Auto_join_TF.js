@@ -23,7 +23,7 @@ function autoPost(ID) {
     'X-Session-Id': `${$persistentStore.read('session_id')}`,
     'X-Session-Digest': `${$persistentStore.read('session_digest')}`,
     'X-Request-Id': `${$persistentStore.read('request_id')}`,
-    'User-Agent': "Oasis/3.1.0 OasisBuild/23 iOS/16.1 model/iPhone11,8 hwp/t8020 build/20B82 (6; dt:194) AMS/1 TSE/0"
+    'User-Agent': `${$persistentStore.read('tf_ua')}`,
   }
   return new Promise(function(resolve) {
     $httpClient.get({url: testurl + ID,headers: header}, function(error, resp, data) {
@@ -38,10 +38,10 @@ function autoPost(ID) {
 				} else {
           let jsonData = JSON.parse(data)
           if (jsonData.data == null) {
-            console.log(jsonData.app.name + ' ' + jsonData.messages[0].message)
+            console.log(ID + ' ' + jsonData.messages[0].message)
             resolve();
           } else if (jsonData.data.status == 'FULL') {
-            console.log(jsonData.app.name + ' ' + jsonData.data.message)
+            console.log(jsonData.data.app.name + ' ' + jsonData.data.message)
             resolve();
           } else {
             $httpClient.post({url: testurl + ID + '/accept',headers: header}, function(error, resp, body) {
