@@ -23,10 +23,7 @@ function autoPost(ID) {
     'X-Session-Id': `${$persistentStore.read('session_id')}`,
     'X-Session-Digest': `${$persistentStore.read('session_digest')}`,
     'X-Request-Id': `${$persistentStore.read('request_id')}`,
-    'User-Agent': "Oasis/3.1.0 OasisBuild/23 iOS/16.1 model/iPhone11,8 hwp/t8020 build/20B82 (6; dt:194) AMS/1 TSE/0",
-    'Host': 'testflight.apple.com',
-    'X-Apple-TA-Device': 'iPhone11,8 iPhone10,3',
-    'X-Active-Devices': 'Oasis/3.1.0 WatchOS/9.1 model/Watch6,4 build/20S75 idh/dadb4377ab13262539e520328404f8a0259f7d3e',
+    'User-Agent': "Oasis/3.1.0 OasisBuild/23 iOS/16.1 model/iPhone11,8 hwp/t8020 build/20B82 (6; dt:194) AMS/1 TSE/0"
   }
   return new Promise(function(resolve) {
     $httpClient.get({url: testurl + ID,headers: header}, function(error, resp, data) {
