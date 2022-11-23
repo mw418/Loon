@@ -21,4 +21,4 @@ if ($persistentStore.read('request_id') !== null) {
 } else {
   $notification.post('信息获取失败','请打开MitM开关','')
 }
-done({})
+$done({})
