@@ -24,6 +24,7 @@ if (reg1.test($request.url)) {
     } else {
       $notification.post('信息获取失败','请打开MitM开关','')
     }
+    $done({})
 }
 if (reg2.test($request.url)) {
   let appId = $persistentStore.read("APP_ID");
@@ -37,8 +38,10 @@ if (reg2.test($request.url)) {
   if (arr.length > 0) {
     appId = arr.join(",");
   }
-  $prefs.setValueForKey(appId, "APP_ID");
-  $notify("TestFlight自动加入", `已添加APP_ID: ${id}`, `当前ID: ${appId}`);
+  $persistentStore.write(appId, "APP_ID");
+  $notification.post("TestFlight自动加入", `已添加APP_ID: ${id}`, `当前ID: ${appId}`);
+  $done({})
 }
-
-$done({})
+function unique(arr) {
+  return Array.from(new Set(arr));
+}
