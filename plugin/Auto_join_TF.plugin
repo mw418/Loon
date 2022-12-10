@@ -2,7 +2,6 @@
 #!desc=For those JavaScripts who should be disabled after evaluation successful.
 #!author=Lucky
 #!input = APP_ID
-#!select = appType,tool,social,health,sport
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TestFlight_2.png
 [MITM]
 hostname=testflight.apple.com
