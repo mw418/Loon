@@ -1,6 +1,12 @@
 #!name=bilibili自动换区
 #!desc=哔哩哔哩, 港澳台番剧自动切换地区 & 显示豆瓣评分
 #!author=Lucky
+#!input = BiliArea_Policy
+#!input = BiliArea_CN
+#!input = BiliArea_TW
+#!input = BiliArea_DF
+#!input = BiliArea_disabled
+#!select = BiliArea_CN, test
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/bilibili_3.png
 
 [MITM]
