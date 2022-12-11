@@ -4,9 +4,8 @@
 #!input = BiliArea_Policy
 #!input = BiliArea_CN
 #!input = BiliArea_TW
+#!input = BiliArea_HK
 #!input = BiliArea_DF
-#!input = BiliArea_disabled
-#!select = BiliArea_CN, test
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/bilibili_3.png
 
 [MITM]
