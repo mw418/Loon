@@ -1,6 +1,7 @@
 #!name=Bing rewards
 #!desc=领取bing积分
 #!author=憨憨
+[MITM]
 hostname=rewards.bing.com
 
 [Script]
