@@ -1,6 +1,7 @@
 #!name=Bing rewards
 #!desc=领取bing积分
 #!author=憨憨
+#!icon=https://raw.githubusercontent.com/lowking/Scripts/master/doc/icon/bingPoint.png
 [MITM]
 hostname=rewards.bing.com
 
