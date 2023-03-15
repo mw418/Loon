@@ -6,8 +6,6 @@
 #!input = bingSearchCookieMobileKey
 #!input = searchPcAmountKey
 #!input = searchMobileAmountKey
-#!input = bingSearchPcCountKey
-#!input = bingSearchMobileCountKey
 #!icon=https://raw.githubusercontent.com/lowking/Scripts/master/doc/icon/bingPoint.png
 [MITM]
 hostname=rewards.bing.com
