@@ -6,6 +6,8 @@
 #!input = bingSearchCookieMobileKey
 #!input = searchPcAmountKey
 #!input = searchMobileAmountKey
+#!input = bingIsContinueWhenZeroKey
+#!input = bingResetHoursKey
 #!icon=https://raw.githubusercontent.com/lowking/Scripts/master/doc/icon/bingPoint.png
 [MITM]
 hostname=rewards.bing.com
