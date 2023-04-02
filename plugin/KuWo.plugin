@@ -1,10 +1,10 @@
 #!name=酷我音乐
 #!desc=酷我音乐vip
-#!author=影子, lucky
+#!author=影子 lucky
 #!icon=https://raw.githubusercontent.com/mw418/Loon/main/image/kuwo.png
 
 [MITM]
 hostname=*.kuwo.cn, audiobookpay.lrts.me
 [Script]
-http-request ^.*?kuwo\.cn/music\.pay\?newver=3$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/kuwo_header.js, tag=歌曲下载, requires-body = true
+http-request ^.*?kuwo\.cn/music\.pay\?newver=3$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/kuwo_header.js, tag=下载歌曲, requires-body = true
 http-response ^(?!.*img).*?(kuwo\.cn|lrts\.me)(/vip|/openapi)?(/enc|/v[1,2]/(user(/vip\?(op\=ui|_t)|base)|theme|sysinfo|api(?!/search)|album)|/kuwopay/vip-tab/setting|tab|/a.p$|/(EcomResource|(Mobile)?Ad)Serv(er|ice)) script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/KuWo.js, tag=酷我音乐vip
