@@ -1,0 +1,10 @@
+#!name=酷我音乐
+#!desc=酷我音乐vip
+#!author=影子
+#!icon=https://raw.githubusercontent.com/mw418/Loon/main/image/kuwo.png
+
+[MITM]
+hostname=hostname=*.kuwo.cn, audiobookpay.lrts.me
+[Script]
+
+^(?!.*img).*?(kuwo\.cn|lrts\.me)(/vip|/openapi)?(/enc|/v[1,2]/(user(/vip\?(op\=ui|_t)|base)|theme|sysinfo|api(?!/search)|album)|/kuwopay/vip-tab/setting|tab|/a.p$|/(EcomResource|(Mobile)?Ad)Serv(er|ice)) url script-response-body https://raw.githubusercontent.com/mw418/Loon/main/script/KuWo.js
