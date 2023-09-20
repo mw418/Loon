@@ -10,7 +10,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   
-  async function randomSleep() {
+async function randomSleep() {
     const minTime = 1000; // 最短休眠时间
     const maxTime = 5000; // 最长休眠时间
     const sleepTime = Math.floor(Math.random() * (maxTime - minTime) + minTime);
