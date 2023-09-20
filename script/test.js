@@ -13,10 +13,11 @@ function sleep(ms) {
   async function randomSleep() {
     const minTime = 1000; // 最短休眠时间
     const maxTime = 5000; // 最长休眠时间
-    const sleepTime = Math.floor(Math.random() * (maxTime - minTime + 1) + minTime);
+    const sleepTime = Math.floor(Math.random() * (maxTime - minTime) + minTime);
     console.log(`休眠 ${sleepTime} 毫秒`);
     await sleep(sleepTime);
     console.log(`休眠结束`);
+    await sign();
   }
 
 randomSleep();
