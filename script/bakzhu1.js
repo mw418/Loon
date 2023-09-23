@@ -270,9 +270,6 @@ str = str.replaceAll(/<img src="\/toimg\/data\/([a-z0-9]+\.png)"\s*\/>/g, functi
 let conn = con + f(str) + "<br/>" + p
 $done(conn)
    
-}, reason => {
-    console.log(reason.error);
-    $done();
 });
 
 
