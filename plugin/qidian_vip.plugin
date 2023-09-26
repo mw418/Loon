@@ -6,7 +6,7 @@
 [MITM]
 hostname=magev6.if.qidian.com
 
-[URL_Rewrite]
+[Rewrite]
 
 ^http[s]?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/bookshelf\/refresh reject-200
 ^http[s]?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/adv\/getadvlistbatch\?positions reject-200
