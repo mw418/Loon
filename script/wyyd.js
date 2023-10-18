@@ -105,7 +105,7 @@ var responseData = {
     //"latest_receipt": "YOUR_LATEST_RECEIPT_DATA_HERE"
     };
 
-if(objc.receipt == '1577082754'){
+if(objc.receipt.app_item_id == '1577082754'){
     objc = responseData
 }
 else
