@@ -1,0 +1,9 @@
+#!name=普通话测试
+#!desc=普通话测试vip
+#!author=lucky
+#!icon=https://raw.githubusercontent.com/mw418/Loon/main/image/pth.png
+
+[MITM]
+hostname=api.hcreator.cn
+[Script]
+http-response ^http[s]?:\/\/api.hcreator.cn script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/hcreator.js, tag=vip
