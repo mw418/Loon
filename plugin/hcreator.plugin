@@ -6,4 +6,4 @@
 [MITM]
 hostname=api.hcreator.cn
 [Script]
-http-response ^http[s]?:\/\/api.hcreator.cn script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/hcreator.js, tag=普通话vip, requires-body=true,
+http-response ^http[s]?:\/\/api.hcreator.cn\/wapsPay\/Login\/pthTest\/v3\/getInfo.do\?userId= script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/hcreator.js, tag=普通话vip, requires-body=true
