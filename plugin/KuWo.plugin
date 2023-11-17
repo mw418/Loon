@@ -4,7 +4,7 @@
 #!icon=https://raw.githubusercontent.com/mw418/Loon/main/image/kuwo.png
 
 [MITM]
-hostname=*.kuwo.cn, audiobookpay.lrts.me
+hostname=*.kuwo.cn, *.lrts.me
 [Script]
 http-request ^.*?kuwo\.cn/music\.pay\?newver=3$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/kuwo_header.js, tag=下载歌曲, requires-body = true
-http-response ^(?!.*img).*?(kuwo\.cn|lrts\.me)(/vip|/openapi)?(/enc|/v[1,2]/(user(/vip\?(op\=ui|_t)|base)|theme|sysinfo|api(?!/search)|album)|/kuwopay/vip-tab/setting|tab|/a.p$|/(EcomResource|(Mobile)?Ad)Serv(er|ice)) script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/KuWo.js, tag=酷我音乐vip
+http-response ^https?:\/\/.*\.(kuwo|lrts)\.(cn|me)\/(a\.p|music\.pay|(vip\/(v2|enc)\/(theme|user\/vip))|(EcomResource|(Mobile)?Ad)Serv(er|ice)).* script-path=https://raw.githubusercontent.com/General74110/Quantumult-X/master/Script/KuwoMusic/Kw.js, tag=酷我音乐vip
