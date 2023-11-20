@@ -1,0 +1,5 @@
+payload:
+# NAME: emby
+  - DOMAIN-SUFFIX,loseremby.org
+  - DOMAIN-SUFFIX,aca.best
+  - DOMAIN-SUFFIX,xmsl.org
