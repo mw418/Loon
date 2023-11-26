@@ -2,7 +2,8 @@
 #!desc=看广告获取点币
 #!author=@mcdasheng688
 #!icon = https://gitlab.com/lodepuly/iconlibrary/-/raw/master/App_icon/120px/QiDian.png
-#!date = 2023-09-26
+#!input = qd_timeout
+#!date = 2023-11-26
 [MITM]
 hostname=h5.if.qidian.com
 
