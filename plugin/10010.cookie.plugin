@@ -1,0 +1,15 @@
+#!name= 联通cookie
+#!desc= 获取联通cookie
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/92/8b/03/928b0371-20fc-288b-e4e4-05f48b7082c2/AppIcon-0-0-1x_U007emarketing-0-7-0-0-85-220.png/120x120.png
+#!date = 2024-12-08 23:00:00
+
+[Argument]
+silent = switch, false, true, tag = 静默模式, desc = 此开关控制插件是否开启静默模式, 静默模式下不发送系统通知
+
+
+[Script]
+http-request ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(onekey|randcode)login\/autoLogin script-path = https://raw.githubusercontent.com/mw418/Loon/main/script/10010cookie.js, requires-body = true, tag = 联通获取cookie,argument=[{silent}]
+
+[MitM]
+hostname = m.client.10010.com
+
