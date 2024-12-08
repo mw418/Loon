@@ -1,6 +1,8 @@
 /*
 
 获取方式：打开  中国联通 app 【官方版】-> 首页的流量查询获取 Cookie
+
+原作者：https://raw.githubusercontent.com/dompling/Script/master/10010/index.js
  */
 const APIKey = 'ChinaUnicom';
 $ = new API(APIKey, true);
