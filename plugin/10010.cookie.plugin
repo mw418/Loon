@@ -8,7 +8,7 @@ silent = switch, false, true, tag = 静默模式, desc = 此开关控制插件�
 
 
 [Script]
-http-request ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(onekey|randcode)login\/autoLogin script-path = https://raw.githubusercontent.com/mw418/Loon/main/script/10010cookie.js, requires-body = true, tag = 联通获取cookie,argument=[{silent}]
+http-request https:\/\/m\.client\.10010\.com\/(.*)\/smartwisdomCommon script-path = https://raw.githubusercontent.com/mw418/Loon/main/script/10010cookie.js, requires-body = true, tag = 联通获取cookie,argument=[{silent}]
 
 [MitM]
 hostname = m.client.10010.com
