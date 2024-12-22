@@ -54,7 +54,7 @@ if (url.indexOf(path2) !== -1) {
             const lowerword = adword_obj();
             lowerword.data.ad.textColor = "#fe0000";
             let bestIndex = floors.findIndex(element =>
-                element.mId === lowerword.mId && element.sortId > lowerword.sortId
+                element.mId === lowerword.mId
             );
             bestIndex = bestIndex === -1 ? floors.length : bestIndex;
 
