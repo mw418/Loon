@@ -27,7 +27,7 @@ request_history_price(shareUrl).then(data => {
             const detail = priceSummary(data);
             const tip = data.PriceRemark.Tip + "(仅供参考)";
             const message =  `${lower} ${tip}\n${detail}`;
-            $.msg('比价结果', '', message)
+            $.msg(data.single.title, '', message)
         } else if (data.ok === 0 && data.msg.length > 0) {
             const message = "慢慢买提示您：" + data?.msg;
             $.msg('比价结果', '', message)
