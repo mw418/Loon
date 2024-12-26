@@ -1,16 +1,19 @@
 /*
-# 2024-09-16
+# 2024-12-26
 # 京东比价
-# 仅适用于京东App版本≤V12.4.3
+#适用于京东App版本V13.8.2
 # 脚本修改来源 https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
+# 脚本修改来源 https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
 
 # 1. 修复比价接口
 # 2. 之前只能QX，Surge，更换为Env,兼容Loon等，仅测试QX
+# 3. 使用水君@srlihg提供的方法
+# 4. 点击商品详情页图片会触发脚本
 
 [rewrite_local]
-^https?:\/\/api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
+^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
 [mitm]
-hostname = api.m.jd.com
+hostname = in.api.m.jd.com
 */
 
 const consolelog = false;
