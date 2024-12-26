@@ -15,10 +15,11 @@ hostname = api.m.jd.com
 
 const consolelog = false;
 const url = $request.url;
-
 const $ = new Env("京东比价");
-
-let shareUrl = url.substring(0, url.indexOf('?')) 
+var regex = /product\/graphext\/(\d+)\.html/;
+var match = url.match(regex);
+let shareUrl = "https://item.m.jd.com/product/" + match[1] + '.html'
+console.log(shareUrl)
 request_history_price(shareUrl).then(data => {
     if (data) {
         if (data.ok === 1 && data.single) {
