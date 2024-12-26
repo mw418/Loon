@@ -11,7 +11,7 @@
 # 4. 点击商品详情页图片会触发脚本
 
 [rewrite_local]
-^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js
+http-request ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=京东比价
 [mitm]
 hostname = in.api.m.jd.com
 */
