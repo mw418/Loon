@@ -13,7 +13,7 @@
 [rewrite_local]
 http-request ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=京东比价
 [mitm]
-hostname = in.api.m.jd.com
+hostname = in.m.jd.com
 */
 
 const consolelog = false;
