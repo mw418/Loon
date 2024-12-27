@@ -61,7 +61,7 @@ function priceSummary(data) {
             "618价格": "六一八价格"
         };
         item.Name = nameMap[item.Name] || item.Name;
-        Delimiter = '        ';
+        Delimiter = '   ';
         summary += `\n${item.Name}${Delimiter}${item.Price}${Delimiter}${item.Date}${Delimiter}${item.Difference}`;
     });
     return summary;
