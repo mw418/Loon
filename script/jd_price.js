@@ -29,8 +29,8 @@ request_history_price(shareUrl).then(data => {
             const lower = lowerMsgs(data.single);
             const detail = priceSummary(data);
             const tip = data.PriceRemark.Tip + "(仅供参考)";
-            const message =  `${lower} ${tip}\n${detail}`;
-            $.msg(data.single.title, '', message)
+            const message =  `${lower} ${tip}`;
+            $.msg(data.single.title, message, detail)
         } else if (data.ok === 0 && data.msg.length > 0) {
             const message = "慢慢买提示您：" + data?.msg;
             $.msg('比价结果', '', message)
@@ -79,7 +79,7 @@ function historySummary(single) {
 
     const createLowest = (name, price, date) => ({
         Name: name,
-        Price: `¥${String(price)}`,
+        Price: `¥${price.toFixed(2)}`,
         Date: date,
         Difference: difference(currentPrice, price),
         price
@@ -97,7 +97,7 @@ function historySummary(single) {
         const updateLowest = (lowest, days) => {
             if (index < days && price < lowest.price) {
                 lowest.price = price;
-                lowest.Price = `¥${String(price)}`;
+                lowest.Price = `¥${price.toFixed(2)}`;
                 lowest.Date = date;
                 lowest.Difference = difference(currentPrice, price);
             }
