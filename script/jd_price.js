@@ -11,9 +11,9 @@
 # 4. 点击商品详情页图片会触发脚本
 
 [rewrite_local]
-^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
+http-request ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=京东比价
 [mitm]
-hostname = in.api.m.jd.com
+hostname = in.m.jd.com
 */
 
 const consolelog = false;
@@ -22,7 +22,7 @@ const $ = new Env("京东比价");
 var regex = /product\/graphext\/(\d+)\.html/;
 var match = url.match(regex);
 let shareUrl = "https://item.m.jd.com/product/" + match[1] + '.html'
-console.log(shareUrl)
+
 request_history_price(shareUrl).then(data => {
     if (data) {
         if (data.ok === 1 && data.single) {
