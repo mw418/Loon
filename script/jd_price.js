@@ -8,7 +8,7 @@
 # 1. 修复比价接口
 # 2. 之前只能QX，Surge，更换为Env,兼容Loon等，仅测试QX
 # 3. 使用水君@srlihg提供的方法
-# 4. 点击商品详情页图片会触发脚本
+# 4. 点击商品详情页，详情页图片加载会触发脚本
 
 [rewrite_local]
 http-request ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=京东比价
