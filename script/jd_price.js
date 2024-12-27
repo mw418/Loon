@@ -54,20 +54,24 @@ function lowerMsgs(single) {
 function priceSummary(data) {
     let summary = "";
     let listPriceDetail = data.PriceRemark.ListPriceDetail.slice(0, 4);
-    listPriceDetail.forEach(item => {
-        if (item.Price) {
-          let priceValue = parseFloat(item.Price.substring(1));
-          item.Price = `¥${priceValue.toFixed(2)}`;
-        }
-      });
     let list = listPriceDetail.concat(historySummary(data.single));
+    const maxWidth = list.reduce((max, item) => Math.max(max, item.Price.length), 0);
     list.forEach(item => {
         const nameMap = {
             "双11价格": "双十一价格",
             "618价格": "六一八价格"
         };
         item.Name = nameMap[item.Name] || item.Name;
-        Delimiter = '   ';
+        Delimiter = '  ';
+        if (item.Price.length < maxWidth){
+            if (item.Price === '-'){
+                item.Price = item.Price.padEnd(maxWidth+7)
+            }
+            else{
+                item.Price = item.Price.includes('.')?item.Price:`${item.Price}.`
+                item.Price = item.Price.padEnd(maxWidth,'0')
+            }
+        }
         summary += `${item.Name}${Delimiter}${item.Price}${Delimiter}${item.Date}${Delimiter}${item.Difference}\n`;
     });
     return summary;
@@ -85,7 +89,7 @@ function historySummary(single) {
 
     const createLowest = (name, price, date) => ({
         Name: name,
-        Price: `¥${price.toFixed(2)}`,
+        Price: `¥${price}`,
         Date: date,
         Difference: difference(currentPrice, price),
         price
@@ -103,7 +107,7 @@ function historySummary(single) {
         const updateLowest = (lowest, days) => {
             if (index < days && price < lowest.price) {
                 lowest.price = price;
-                lowest.Price = `¥${price.toFixed(2)}`;
+                lowest.Price = `¥${price}`;
                 lowest.Date = date;
                 lowest.Difference = difference(currentPrice, price);
             }
