@@ -54,6 +54,12 @@ function lowerMsgs(single) {
 function priceSummary(data) {
     let summary = "";
     let listPriceDetail = data.PriceRemark.ListPriceDetail.slice(0, 4);
+    listPriceDetail.forEach(item => {
+        if (item.Price) {
+          let priceValue = parseFloat(item.Price.substring(1));
+          item.Price = `¥${priceValue.toFixed(2)}`;
+        }
+      });
     let list = listPriceDetail.concat(historySummary(data.single));
     list.forEach(item => {
         const nameMap = {
