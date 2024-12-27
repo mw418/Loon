@@ -68,7 +68,7 @@ function priceSummary(data) {
         };
         item.Name = nameMap[item.Name] || item.Name;
         Delimiter = '   ';
-        summary += `\n${item.Name}${Delimiter}${item.Price}${Delimiter}${item.Date}${Delimiter}${item.Difference}`;
+        summary += `${item.Name}${Delimiter}${item.Price}${Delimiter}${item.Date}${Delimiter}${item.Difference}\n`;
     });
     return summary;
 }
