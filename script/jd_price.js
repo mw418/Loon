@@ -1,6 +1,6 @@
 /*
 # 2024-12-26
-# 京东比价
+# 京东比价(弹窗通知版)
 #适用于京东App版本V13.8.2
 # 脚本修改来源 https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
 # 脚本修改来源 https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
