@@ -63,16 +63,12 @@ function priceSummary(data) {
         };
         item.Name = nameMap[item.Name] || item.Name;
         Delimiter = '  ';
+        if(item.Price=='-'){return} // 没数不展示了
         if (item.Price.length < maxWidth){
-            if (item.Price === '-'){
-                item.Price = item.Price.padEnd(maxWidth+7)
-            }
-            else{
-                item.Price = item.Price.includes('.')?item.Price:`${item.Price}.`
-                item.Price = item.Price.padEnd(maxWidth,'0')
-            }
+            item.Price = item.Price.includes('.')?item.Price:`${item.Price}.`
+            item.Price = item.Price.padEnd(maxWidth,'0')        
         }
-        summary += `${item.Name}${Delimiter}${item.Price}${Delimiter}${item.Date}${Delimiter}${item.Difference}\n`;
+        summary += `${item.Name}${Delimiter}${item.Price}${Delimiter}${item.Date}${Delimiter}${item.Difference=='-'?'':item.Difference}\n`;
     });
     return summary;
 }
