@@ -1,5 +1,5 @@
 # NAME: emby
-# https://github.com/MisakaFxxk/MisakaF_Subconverter/blob/main/Sub/Emby.list
+# https://raw.githubusercontent.com/luolikongxiaowen/emby/main/ACAEMBY.yaml
 DOMAIN-SUFFIX,emby.nexitally.com
 DOMAIN-SUFFIX,emby.cjpc.cc
 DOMAIN-SUFFIX,emby.flowercloud.yt
@@ -79,8 +79,6 @@ DOMAIN-SUFFIX,shuipo.lol
 DOMAIN-SUFFIX,dicarerhome.com
 DOMAIN-SUFFIX,emby77.cf
 DOMAIN-SUFFIX,embyplus.org
-IP-CIDR,188.172.228.49/32
-IP-CIDR,202.61.255.248/32
 DOMAIN-SUFFIX,embytv.cf
 DOMAIN-SUFFIX,zox.show
 DOMAIN-SUFFIX,acemby.org
@@ -109,6 +107,10 @@ DOMAIN-SUFFIX,4545.cf
 DOMAIN-SUFFIX,ggtt.cf
 DOMAIN-SUFFIX,mulgore.net
 DOMAIN-SUFFIX,happyav.eu.org
+DOMAIN-SUFFIX,emby.misakaf.org
+DOMAIN-SUFFIX,push-kr.cfprefer3.xyz
+DOMAIN-SUFFIX,push-kr.misakaf.org
+DOMAIN-SUFFIX,emby2.misakaf.org
 DOMAIN-SUFFIX,123456.al
 DOMAIN-SUFFIX,emby.pro
 DOMAIN-SUFFIX,xiaoyi.one
@@ -126,6 +128,22 @@ DOMAIN-SUFFIX,emby.ws
 DOMAIN-SUFFIX,ohhhh.org
 DOMAIN-SUFFIX,xmsl.org
 DOMAIN-SUFFIX,9521732.xyz
+DOMAIN-SUFFIX,aca.best
+DOMAIN-SUFFIX,pilipiliultra.top
+DOMAIN-SUFFIX,pilipiliultra.com
+DOMAIN-SUFFIX,polodns.xyz
+DOMAIN-SUFFIX,nijigem.by
+DOMAIN-SUFFIX,semby.ink
+DOMAIN-SUFFIX,embypaul.top
+DOMAIN-SUFFIX,lzlz.eu.org
+DOMAIN-SUFFIX,bgka.me
+DOMAIN-SUFFIX,foxcoo.top
+DOMAIN-SUFFIX,nebulae.top
+DOMAIN-SUFFIX,cherrytv.one
+DOMAIN-SUFFIX,emby.at
+DOMAIN-SUFFIX,ycxdy.top
+DOMAIN-SUFFIX,reddust.link
+DOMAIN-SUFFIX,am.sb
 DOMAIN-SUFFIX,stream1.misakaf.org
 DOMAIN-SUFFIX,stream2.misakaf.org
 DOMAIN-SUFFIX,stream3.misakaf.org
