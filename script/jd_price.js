@@ -73,6 +73,8 @@ function priceSummary(data) {
         }
         summary += `${item.Name}${Delimiter}${item.Price}${Delimiter}${item.Date}${Delimiter}${item.Difference=='-'?'':item.Difference}\n`;
     });
+    // 删除最后一个换行
+    summary = summary.replace(/\n$/, "")
     return summary;
 }
 
