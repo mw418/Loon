@@ -149,3 +149,4 @@ payload:
   - DOMAIN-SUFFIX,stream4.misakaf.org
   - DOMAIN-SUFFIX,pilipili.misakaf.org
   - DOMAIN-SUFFIX,aca.misakaf.org
+  - DOMAIN-SUFFIX,,tdck.fun
