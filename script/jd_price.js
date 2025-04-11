@@ -81,7 +81,8 @@ function priceSummary(data) {
 
 function historySummary(single) {
     let currentPrice, lowest30, lowest90, lowest180, lowest360;
-    const singleArray = JSON.parse(`[${single.jiagequshiyh}]`);
+    const jiagequshiyh = single.jiagequshiyh.replace(/,\s*\]/g, ']')// 新版加密协议移除后面的都好  [1709222400000,54.90,"购买1件,页面价:64.9,满减：满1件减10元",]
+    const singleArray = JSON.parse(`[${jiagequshiyh}]`);
     const singleFormatted = singleArray.map(item => ({
         Date: item[0],
         Price: item[1],
