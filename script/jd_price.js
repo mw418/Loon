@@ -10,40 +10,60 @@
 # 3. 使用水君@srlihg提供的方法
 # 4. 点击商品详情页，详情页图片加载会触发脚本
 # 04-10 更新 抄袭灰佬比价接口
+# 04-18 更新 抄袭灰佬获取token
 
 [rewrite_local]
 http-request ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=京东比价
+http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=京东比价获取token
 [mitm]
-hostname = in.m.jd.com
+hostname = in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com
 */
 
 const consolelog = false;
 const url = $request.url;
 const $ = new Env("京东比价");
+const manmanbuy_key = 'manmanbuy_val';
+const path = '/baoliao/center/menu'
 var regex = /product\/graphext\/(\d+)\.html/;
 var match = url.match(regex);
-let shareUrl = "https://item.m.jd.com/product/" + match[1] + '.html'
+
 intCryptoJS();
 
-request_history_price(shareUrl).then(data => {
-    if (data) {
-        if (data.ok === 1 && data.single) {
-            const lower = lowerMsgs(data.single);
-            const detail = priceSummary(data);
-            const tip = data.PriceRemark.Tip + "(仅供参考)";
-            const message =  `${lower} ${tip}`;
-            $.msg(data.single.title, message, detail)
-        } else if (data.ok === 0 && data.msg.length > 0) {
-            const message = "慢慢买提示您：" + data?.msg;
-            $.msg('比价结果', '', message)
+if (url.indexOf(path) != -1) {
+    const reqbody = $request.body;
+    $.setdata(reqbody, manmanbuy_key);
+    $.msg($.name, '获取ck成功🎉', reqbody);
+}
+
+function getck() {
+    const ck = $.getdata(manmanbuy_key);
+    if (!ck) return $.msg($.name, '请先打开【慢慢买】APP--我的', '请确保已成功获取ck'), null;
+    const c_mmbDevId = parseQueryString(ck)?.c_mmbDevId;
+    $.log('慢慢买c_mmbDevId：', c_mmbDevId);
+    return c_mmbDevId || ($.msg($.name, '数据异常', '请联系脚本作者检查ck格式'), null);
+}
+if(match){
+    let shareUrl = "https://item.m.jd.com/product/" + match[1] + '.html'
+    request_history_price(shareUrl).then(data => {
+        if (data) {
+            if (data.ok === 1 && data.single) {
+                const lower = lowerMsgs(data.single);
+                const detail = priceSummary(data);
+                const tip = data.PriceRemark.Tip + "(仅供参考)";
+                const message =  `${lower} ${tip}`;
+                $.msg(data.single.title, message, detail)
+            } else if (data.ok === 0 && data.msg.length > 0) {
+                const message = "慢慢买提示您：" + data?.msg;
+                $.msg('比价结果', '', message)
+            }
+            $done({});
+        } else {
+            $done({});
         }
+    }).catch(() => {
         $done({});
-    } else {
-        $done({});
-    }
-}).catch(() => {
-    $done({});
-});
+    });
+}
 
 function lowerMsgs(single) {
     const lower = single.lowerPriceyh
@@ -136,7 +156,8 @@ function request_history_price(share_url,) {
             "methodName": "getHistoryTrend",
             "p_url": encodeURIComponent(share_url),
             "t": Date.now().toString(),
-            "c_appver": "4.0.10"
+            "c_appver": "4.8.31",
+            "c_mmbDevId": getck()
         }
         rest_body.token = md5(encodeURIComponent('3E41D1331F5DDAFCD0A38FE2D52FF66F' + jsonToCustomString(rest_body) + '3E41D1331F5DDAFCD0A38FE2D52FF66F')).toUpperCase();
         const options = {
@@ -159,7 +180,7 @@ function request_history_price(share_url,) {
     });
 }
 
-
+function parseQueryString(queryString) {const jsonObject = {};const pairs = queryString.split('&');pairs.forEach(pair => {const [key, value] = pair.split('=');jsonObject[decodeURIComponent(key)] = decodeURIComponent(value || '');});return jsonObject;}
 function jsonToQueryString(jsonObject) {return Object.keys(jsonObject).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`).join('&');}
 function jsonToCustomString(jsonObject){return Object.keys(jsonObject).filter(key=>jsonObject[key]!==''&&key.toLowerCase()!=='token').sort().map(key=>`${key.toUpperCase()}${jsonObject[key].toUpperCase()}`).join('');}
 
