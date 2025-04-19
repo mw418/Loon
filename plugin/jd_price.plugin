@@ -11,7 +11,7 @@ arg3 = switch,false,tag=原始版
 arg4 = switch,false,tag=弹窗版
 
 [MITM]
-hostname=api.hcreator.cn, apapia-sqk-weblogic.manmanbuy.com
+hostname=in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com
 [Script]
 http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js,requires-body=true, timeout=60, tag=京东比价获取token, enable={arg1}
 http-response ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js, tag=京东比价表格版, requires-body=true, enable={arg2}
