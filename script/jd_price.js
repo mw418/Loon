@@ -2,7 +2,7 @@
 # 2024-04-10
 # 京东比价(弹窗通知版)
 #适用于京东App版本V13.8.2
-# 脚本修改来源 https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
+# 脚本修改来源 https://github.com/githubdulong/Script/blob/master/jd_price.js
 # 脚本修改来源 https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
 
 # 1. 修复比价接口
@@ -29,6 +29,39 @@ var match = url.match(regex);
 
 intCryptoJS();
 
+const $http = (op, t = 4) => {
+    const { promise, resolve, reject } = Promise.withResolvers();
+    const HTTPError = (e, req, res) =>
+      Object.assign(new Error(e), {
+        name: "HTTPError",
+        request: req,
+        response: res,
+      });
+  
+    const handleRes = ({ bodyBytes, ...res }) => {
+      res.status ??= res.statusCode;
+      res.json = () => JSON.parse(res.body);
+      if (res.headers?.["binary-mode"] && bodyBytes)
+        res.body = new Uint8Array(bodyBytes);
+  
+      res.error || res.status < 200 || res.status > 307
+        ? reject(HTTPError(res.error, op, res))
+        : resolve(res);
+    };
+  
+    const timer = setTimeout(
+      () => reject(HTTPError("timeout", op)),
+      op.$timeout ?? t * 1000
+    );
+    this.$httpClient?.[op.method || "get"](op, (error, resp, body) => {
+      handleRes({ error, ...resp, body });
+    });
+    this.$task?.fetch({ url: op, ...op }).then(handleRes, handleRes);
+  
+    return promise.finally(() => clearTimeout(timer));
+  };
+  
+
 if (url.indexOf(path) != -1) {
     const reqbody = $request.body;
     $.setdata(reqbody, manmanbuy_key);
@@ -45,46 +78,25 @@ function getck() {
     $.log('慢慢买c_mmbDevId：', c_mmbDevId);
     return c_mmbDevId || ($.msg($.name, '数据异常', '请联系脚本作者检查ck格式'), null);
 }
-if(match){
-    let shareUrl = "https://item.m.jd.com/product/" + match[1] + '.html'
-    request_history_price(shareUrl).then(data => {
-        if (data) {
-            if (data.ok === 1 && data.single) {
-                const lower = lowerMsgs(data.single);
-                const detail = priceSummary(data);
-                const tip = data.PriceRemark.Tip + "(仅供参考)";
-                const message =  `${lower} ${tip}`;
-                $.msg(data.single.title, message, detail)
-            } else if (data.ok === 0 && data.msg.length > 0) {
-                const message = "慢慢买提示您：" + data?.msg;
-                $.msg('比价结果', '', message)
-            }
-            $done({});
-        } else {
-            $done({});
-        }
-    }).catch(() => {
-        $done({});
-    });
-}
 
 function lowerMsgs(single) {
-    const lower = single.lowerPriceyh
-    const timestamp = parseInt(single.lowerDateyh.match(/\d+/), 10);
-    const lowerDate = $.time('yyyy-MM-dd', timestamp);
+    const lower = single.priceRemark.lowestPrice
+    const lowerDate = single.priceRemark.lowestDate.slice(0, 10);
     const lowerMsg = "历史最低:¥" + String(lower) + `(${lowerDate}) `
     return lowerMsg
 }
 
 function priceSummary(data) {
     let summary = "";
-    let listPriceDetail = data.PriceRemark.ListPriceDetail.slice(0, 4);
-    let list = listPriceDetail.concat(historySummary(data.single));
+    let list = historySummary(data);
     const maxWidth = list.reduce((max, item) => Math.max(max, item.Price.length), 0);
     list.forEach(item => {
         const nameMap = {
-            "双11价格": "双十一价格",
-            "618价格": "六一八价格"
+          "双11价格": "双十一价格",
+          "618价格": "六一八价格",
+          "30天最低价": "三十天最低",
+          "60天最低价": "六十天最低",
+          "180天最低价": "一百八最低",
         };
         item.Name = nameMap[item.Name] || item.Name;
         Delimiter = '  ';
@@ -102,86 +114,139 @@ function priceSummary(data) {
     return summary;
 }
 
-function historySummary(single) {
-    let currentPrice, lowest30, lowest90, lowest180, lowest360;
-    const jiagequshiyh = single.jiagequshiyh.replace(/,\s*\]/g, ']')// 新版加密协议移除后面的都好  [1709222400000,54.90,"购买1件,页面价:64.9,满减：满1件减10元",]
-    const singleArray = JSON.parse(`[${jiagequshiyh}]`);
-    const singleFormatted = singleArray.map(item => ({
-        Date: item[0],
-        Price: item[1],
-        Name: item[2]
-    }));
-    let list = singleFormatted.reverse().slice(0, 360); // 取最近 360 天数据
+function historySummary(result) {
+  const toDate = (t = Date.now()) => {
+    const d = new Date(t - new Date().getTimezoneOffset() * 60000);
+    return d.toISOString().split("T")[0];
+  };
 
-    const createLowest = (name, price, date) => ({
-        Name: name,
-        Price: `¥${price}`,
-        Date: date,
-        Difference: difference(currentPrice, price),
-        price
+  const getJdData = (data) => {
+    return data.flatMap(({ Name, Difference, Price, Date }) => {
+      const re = /历史最高|常购价/;
+      if (re.test(Name)) return [];
+
+      return [
+        {
+          Name: Name,
+          Date: Date || toDate(),
+          Price: Price,
+          Difference: Difference,
+        },
+      ];
     });
-    list.forEach((item, index) => {
-        const date = $.time('yyyy-MM-dd', item.Date)
-        let price = item.Price;
-        if (index === 0) {
-            currentPrice = price;
-            lowest30 = createLowest("三十天最低", price, date);
-            lowest90 = createLowest("九十天最低", price, date);
-            lowest180 = createLowest("一百八最低", price, date);
-            lowest360 = createLowest("三百六最低", price, date);
-        }
-        const updateLowest = (lowest, days) => {
-            if (index < days && price < lowest.price) {
-                lowest.price = price;
-                lowest.Price = `¥${price}`;
-                lowest.Date = date;
-                lowest.Difference = difference(currentPrice, price);
-            }
+  };
+
+  const { ListPriceDetail } = result.priceRemark;
+  return getJdData(ListPriceDetail);
+}
+
+
+const request_history_price = (id) => {
+    const getmmCK = getck();
+  
+    const buildMultipart = (fields) => {
+      const boundary =
+        "----WebKitFormBoundary" + Math.random().toString(36).substr(2);
+      let body = "";
+  
+      for (const [name, value] of Object.entries(fields)) {
+        body += `--${boundary}\r\n`;
+        body += `Content-Disposition: form-data; name="${name}"\r\n\r\n`;
+        body += `${value}\r\n`;
+      }
+      body += `--${boundary}--\r\n`;
+  
+      return { body, boundary };
+    };
+  
+    const shareBody = {
+      methodName: "trendJava",
+      spbh: `1|${id}`,
+      url: `https://item.jd.com/${id}.html`,
+      t: Date.now().toString(),
+      c_appver: "4.8.3.1",
+      c_mmbDevId: getmmCK,
+    };
+  
+    shareBody.token = md5(
+      encodeURIComponent(
+        "3E41D1331F5DDAFCD0A38FE2D52FF66F" +
+          jsonToCustomString(shareBody) +
+          "3E41D1331F5DDAFCD0A38FE2D52FF66F"
+      )
+    ).toUpperCase();
+  
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+      "User-Agent":
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios",
+    };
+  
+    const reqShare = {
+      method: "post",
+      url: "https://apapia-history-weblogic.manmanbuy.com/app/share",
+      headers,
+      body: jsonToQueryString(shareBody),
+    };
+  
+    return $http(reqShare)
+      .then((res) => {
+        const { msg, code, data } = res.json();
+        if (code !== 2000) throw new Error(msg);
+        if (!data) throw new Error(`${reqShare.url}: 无效数据`);
+  
+        return new URL(data).searchParams;
+      })
+      .then((params) => {
+        const fields = {
+          shareId: params.get("shareId"),
+          sign: params.get("sign"),
+          spbh: params.get("spbh"),
+          url: params.get("url"),
         };
-        updateLowest(lowest30, 30);
-        updateLowest(lowest90, 90);
-        updateLowest(lowest180, 180);
-        updateLowest(lowest360, 360);
-    });
-    return [lowest30, lowest90, lowest180, lowest360];
+  
+        const { body, boundary } = buildMultipart(fields);
+  
+        const reqTrendData = {
+          method: "post",
+          url: "https://apapia-history-weblogic.manmanbuy.com/h5/share/trendData",
+          headers: {
+            "content-type": `multipart/form-data; boundary=${boundary}`,
+          },
+          body,
+        };
+  
+        return $http(reqTrendData);
+      })
+      .then((res) => res.json());
 }
 
-function difference(currentPrice, price, precision = 2) {
-    const diff = (parseFloat(currentPrice) - parseFloat(price)).toFixed(precision);
-    return diff == 0 ? "-" : `${diff > 0 ? "↑" : "↓"}${Math.abs(diff)}`;
-}
-
-
-
-function request_history_price(share_url,) {
-    return new Promise((resolve, reject) => {
-        rest_body = {
-            "methodName": "getHistoryTrend",
-            "p_url": encodeURIComponent(share_url),
-            "t": Date.now().toString(),
-            "c_appver": "4.8.31",
-            "c_mmbDevId": getck()
+(async () => {
+  try {
+    let id = match[1]
+    let data = await request_history_price(id)
+    if (data) {
+        if (data.ok === 1) {
+            data = data.result
+            const detail = priceSummary(data);
+            const lower = lowerMsgs(data)
+            const tip = data.priceRemark.Tip + "(仅供参考)";
+            const message =  `${lower} ${tip}`;
+            $.msg(data.trendData.title, message, detail)
+        } else if (data.ok === 0 && data.msg.length > 0) {
+            const message = "慢慢买提示您：" + data?.msg;
+            $.msg('比价结果', '', message)
         }
-        rest_body.token = md5(encodeURIComponent('3E41D1331F5DDAFCD0A38FE2D52FF66F' + jsonToCustomString(rest_body) + '3E41D1331F5DDAFCD0A38FE2D52FF66F')).toUpperCase();
-        const options = {
-            url: "https://apapia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios"
-            },
-            body: jsonToQueryString(rest_body)
-        }
-        $.post(options, (error, response, data) => {
-            if (error) {
-                consolelog && console.log("Error:\n" + error);
-                reject(error);
-            } else {
-                consolelog && console.log("Data:\n" + data);
-                resolve(JSON.parse(data));
-            }
-        });
-    });
+
+    }
+    $done({});     
+} catch (e) {
+  $log(e);
+  $done({});
 }
+})();
+
+
 
 function parseQueryString(queryString) {const jsonObject = {};const pairs = queryString.split('&');pairs.forEach(pair => {const [key, value] = pair.split('=');jsonObject[decodeURIComponent(key)] = decodeURIComponent(value || '');});return jsonObject;}
 function jsonToQueryString(jsonObject) {return Object.keys(jsonObject).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`).join('&');}
