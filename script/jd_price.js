@@ -14,7 +14,7 @@
 
 [rewrite_local]
 http-request ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=京东比价
-http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=京东比价获取token
+http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, requires-body=true, timeout=60, tag=京东比价获取token
 [mitm]
 hostname = in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com
 */
@@ -32,6 +32,9 @@ intCryptoJS();
 if (url.indexOf(path) != -1) {
     const reqbody = $request.body;
     $.setdata(reqbody, manmanbuy_key);
+    const params = new URLSearchParams(reqbody);
+    const devId = params.get('c_mmbDevId');     
+    $.setdata(devId, "慢慢买CK");
     $.msg($.name, '获取ck成功🎉', reqbody);
 }
 
