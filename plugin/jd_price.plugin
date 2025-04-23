@@ -1,14 +1,15 @@
 #!name=京东比价
-#!desc=原始/表格/弹窗，原始和表格不能同时开启, 点击商品详情页触发脚本\n1.打开慢慢买APP-我的页面（无需登录）获取cookie,会通知获取ck成功\n2.京东商品详情页会展示比价结果
+#!desc=原始/表格/弹窗/折线，原始，表格，折线不能同时开启, 点击商品详情页触发脚本\n1.打开慢慢买APP-我的页面（无需登录）获取cookie,会通知获取ck成功\n2.京东商品详情页会展示比价结果
 #!author=小白脸,灰灰
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/JD.png
-#!date=2025-04-21
+#!date=2025-04-23
 
 [Argument]
 arg1 = switch,true,tag=获取token
-arg2 = switch,true,tag=表格版
+arg2 = switch,false,tag=表格版
 arg3 = switch,false,tag=原始版
 arg4 = switch,false,tag=弹窗版
+arg5 = switch,true,tag=折线版
 
 [MITM]
 hostname=in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com
@@ -17,3 +18,4 @@ http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/m
 http-response ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js, tag=京东比价表格版, requires-body=true, enable={arg2}
 http-response ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, tag=京东比价原始版, requires-body=true, enable={arg3}
 http-request ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, tag=京东比价弹窗版, enable={arg4}
+http-response ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js, tag=京东比价折线版, requires-body=true, timeout=30, enable={arg5}
