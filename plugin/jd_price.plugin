@@ -6,7 +6,7 @@
 
 [Argument]
 arg1 = switch,true,tag=获取token
-arg2 = switch,false,tag=返利版
+arg2 = switch,false,tag=京东助手(禁用通知)
 arg3 = switch,false,tag=原始版
 arg4 = switch,false,tag=弹窗版
 arg5 = switch,true,tag=折线版,desc=下面参数开关表格
@@ -16,7 +16,7 @@ arg6 = switch,false,tag=折线不展示表格
 hostname=in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com
 [Script]
 http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js,requires-body=true, timeout=60, tag=京东比价获取token, enable={arg1}
-http-request ^https:\/\/in\.m\.jd\.com\/product\/.+?\.html script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price1.js, requires-body=true, timeout=60, tag=返利版, enable={arg2}, argument="disable_notice=false"
+http-response ^https:\/\/in\.m\.jd\.com\/product\/.+?\.html script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price1.js, requires-body=true, timeout=60, tag=返利版, enable={arg2}, argument="disable_notice=false"
 http-response ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, tag=京东比价原始版, requires-body=true, enable={arg3}
 http-request ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, tag=京东比价弹窗版, enable={arg4}
 http-response ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price2.js, tag=京东比价折线版, requires-body=true, timeout=30, enable={arg5},argument=[{arg6}]
